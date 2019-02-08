@@ -26,6 +26,7 @@ public class JackpotController implements Initializable
     @FXML private Button submitButton;
     @FXML private TextField field;
     @FXML private Label prompt;
+    @FXML private Label totalBet;
 
     private boolean gameState = false;
     private Jackpot jp;
@@ -60,7 +61,8 @@ public class JackpotController implements Initializable
      * Makes sure the betting amount entered is a whole number that is less than 1,000,000,000.
      * @return True if it meets the requirements, false otherwise.
      */
-    private boolean validateBet() {
+    private boolean validateBet()
+    {
         return (prompt.getText().length() < 10 && prompt.getText().length() > 0 && jp.userManager.validateAmount(LoginController.currentUser, Integer.parseInt(prompt.getText())));
     }
 
@@ -74,9 +76,19 @@ public class JackpotController implements Initializable
         }
     }
 
-    public void handler(javafx.event.ActionEvent e) {
-        if (!validateBet()) {
-            displayAlert();
+    public void handler(javafx.event.ActionEvent e)
+    {
+        if (gameState)
+        {
+            if (!validateBet()) {
+                displayAlert();
+            }
+            else
+            {
+                currentBet.setLabelFor(field);
+                totalBet.setLabelFor(currentBet);
+                winPercent.setText(Integer.toString(Integer.valueOf(currentBet.getText()) / Integer.valueOf(totalBet.getText())));
+            }
         }
     }
 
