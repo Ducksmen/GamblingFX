@@ -3,12 +3,16 @@ package Controllers;
 import Dependencies.Games.Jackpot;
 import Dependencies.Systems.User;
 import Dependencies.Systems.UserManager;
+import com.jfoenix.controls.JFXDialog;
 import javafx.animation.AnimationTimer;
+import javafx.animation.PauseTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import  javafx.scene.control.TextField;
+import javafx.scene.layout.StackPane;
+import javafx.util.Duration;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -27,6 +31,8 @@ public class JackpotController implements Initializable
     @FXML private TextField field;
     @FXML private Label prompt;
     @FXML private Label totalBet;
+    @FXML private StackPane stackPane;
+    private long time2;
 
     private boolean gameState = false;
     private Jackpot jp;
@@ -49,52 +55,52 @@ public class JackpotController implements Initializable
                     }
                     if (now < step)
                     {
-                        long time2 = now - step;
-                        timeNum.setText(Long.toString(-time2));
+                        time2 = now - step;
+                        timeNum.setText(Long.toString(-time2/1000000000));
                     }
                 }
             }.start();
         }
-    }
-
-    /**
-     * Makes sure the betting amount entered is a whole number that is less than 1,000,000,000.
-     * @return True if it meets the requirements, false otherwise.
-     */
-    private boolean validateBet()
-    {
-        return (prompt.getText().length() < 10 && prompt.getText().length() > 0 && jp.userManager.validateAmount(LoginController.currentUser, Integer.parseInt(prompt.getText())));
-    }
-
-    private void displayAlert() {
-        if (field.getText().length() > 10) {
-            prompt.setText("Smaller Bet Pls.");
-        } else if (field.getText().matches(".")) {
-            prompt.setText("Whole # Only.");
-        } else if (field.getText().matches("[a-zA-Z]")){
-            prompt.setText("Numbers Pls.");
+        if(timeIsZero())
+        {
+            JFXDialog dialog = new JFXDialog();
+            dialog.setContent(new Label("x won with x percent"));
+            dialog.show(stackPane);
+            PauseTransition pause = new PauseTransition(Duration.seconds(2));
+            pause.setOnFinished(event -> {
+                dialog.close();
+            });
+            pause.play();
         }
+    }
+
+    private boolean timeIsZero()
+    {
+        return (time2 == 0);
+    }
+
+    private boolean isNumber()
+    {
+        return (field.getText().matches("^[0-9]*$"));
     }
 
     public void handler(javafx.event.ActionEvent e)
     {
         if (gameState)
         {
-            if (!validateBet()) {
-                displayAlert();
+            if(isNumber())
+            {
+                prompt.setText("Bet Received.");
+                currentBet.setText(field.getText());
+                totalBet.setText(currentBet.getText());
+                //winPercent.setText(Integer.toString(Integer.valueOf(currentBet.getText()) / Integer.valueOf(totalBet.getText())));
+
             }
             else
             {
-                currentBet.setLabelFor(field);
-                totalBet.setLabelFor(currentBet);
-                winPercent.setText(Integer.toString(Integer.valueOf(currentBet.getText()) / Integer.valueOf(totalBet.getText())));
+                prompt.setText("Integers Only, 0-Billion");
             }
         }
-    }
-
-    public void bet()
-    {
-
     }
 
     @Override
