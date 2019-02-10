@@ -25,22 +25,22 @@
             <Font size="24.0" />
          </font>
       </Label>
-      <Label fx:id="yourName" layoutX="8.0" layoutY="83.0" text="YourName">
+      <Label fx:id="yourName" layoutX="5.0" layoutY="83.0" text="YourName">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="8.0" layoutY="110.0" text="Balance:">
+      <Label layoutX="4.0" layoutY="110.0" text="Balance:">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label fx:id="balanceNum" layoutX="76.0" layoutY="110.0" text="balanceNum">
+      <Label fx:id="balanceNum" layoutX="76.0" layoutY="111.0" text="balanceNum">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="5.0" layoutY="139.0" text="Your Current Bet: ">
+      <Label layoutX="5.0" layoutY="137.0" text="Your Current Bet: ">
          <font>
             <Font size="18.0" />
          </font>
@@ -69,7 +69,7 @@
             <Font size="24.0" />
          </font>
       </Text>
-      <Label fx:id="timeNum" layoutX="126.0" layoutY="308.0" text="Click start" textFill="#ff2b2b">
+      <Label fx:id="timeNum" layoutX="126.0" layoutY="309.0" text="Click start" textFill="#ff2b2b">
          <font>
             <Font size="18.0" />
          </font>

@@ -33,6 +33,8 @@ public class JackpotController implements Initializable
     @FXML private Label totalBet;
     @FXML private StackPane stackPane;
     private long time2;
+    private String winner;
+    private double winPercentage;
 
     private boolean gameState = false;
     private Jackpot jp;
@@ -64,7 +66,7 @@ public class JackpotController implements Initializable
         if(timeIsZero())
         {
             JFXDialog dialog = new JFXDialog();
-            dialog.setContent(new Label("x won with x percent"));
+            dialog.setContent(new Label(winner + " won with " + winPercentage + "."));
             dialog.show(stackPane);
             PauseTransition pause = new PauseTransition(Duration.seconds(2));
             pause.setOnFinished(event -> {
@@ -76,12 +78,12 @@ public class JackpotController implements Initializable
 
     private boolean timeIsZero()
     {
-        return (time2 == 0);
+        return (time2 == 15000000000L);
     }
 
     private boolean isNumber()
     {
-        return (field.getText().matches("^[0-9]*$"));
+        return (field.getText().matches("^[0-9]*$") || field.getText().length() > 10 || field.getText().length() == 0);
     }
 
     public void handler(javafx.event.ActionEvent e)
@@ -93,12 +95,13 @@ public class JackpotController implements Initializable
                 prompt.setText("Bet Received.");
                 currentBet.setText(field.getText());
                 totalBet.setText(currentBet.getText());
-                //winPercent.setText(Integer.toString(Integer.valueOf(currentBet.getText()) / Integer.valueOf(totalBet.getText())));
+                balanceNum.setText(Integer.toString(Integer.parseInt(balanceNum.getText()) - Integer.parseInt(currentBet.getText())));
+                winPercent.setText(Integer.toString((Integer.valueOf(currentBet.getText()) / Integer.valueOf(totalBet.getText())) * 100) + "%");
 
             }
             else
             {
-                prompt.setText("Integers Only, 0-Billion");
+                prompt.setText("Integers Only, 0-100K");
             }
         }
     }
