@@ -50,7 +50,7 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <TableView editable="true" layoutX="251.0" prefHeight="500.0" prefWidth="450.0">
+      <TableView fx:id="betTable" editable="true" layoutX="251.0" prefHeight="500.0" prefWidth="450.0">
         <columns>
           <TableColumn prefWidth="150.0" text="Player Name" />
           <TableColumn prefWidth="150.0" text="Bet Amount" />

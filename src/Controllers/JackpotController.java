@@ -10,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableView;
 import  javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
@@ -32,6 +33,7 @@ public class JackpotController implements Initializable
     @FXML private Label prompt;
     @FXML private Label totalBet;
     @FXML private StackPane stackPane;
+    @FXML private TableView betTable = new TableView();
     private long time2;
     private String winner;
     private double winPercentage;
@@ -62,8 +64,9 @@ public class JackpotController implements Initializable
                     }
                 }
             }.start();
+            betTable.setEditable(true);
         }
-        if(timeIsZero())
+        if(timeNum.getText().equals("0"))
         {
             JFXDialog dialog = new JFXDialog();
             dialog.setContent(new Label(winner + " won with " + winPercentage + "."));
@@ -74,11 +77,6 @@ public class JackpotController implements Initializable
             });
             pause.play();
         }
-    }
-
-    private boolean timeIsZero()
-    {
-        return (time2 == 15000000000L);
     }
 
     private boolean isNumber()
@@ -97,13 +95,19 @@ public class JackpotController implements Initializable
                 totalBet.setText(currentBet.getText());
                 balanceNum.setText(Integer.toString(Integer.parseInt(balanceNum.getText()) - Integer.parseInt(currentBet.getText())));
                 winPercent.setText(Integer.toString((Integer.valueOf(currentBet.getText()) / Integer.valueOf(totalBet.getText())) * 100) + "%");
-
+                field.setEditable(false);
+                runGame();
             }
             else
             {
                 prompt.setText("Integers Only, 0-100K");
             }
         }
+    }
+
+    public void runGame()
+    {
+
     }
 
     @Override

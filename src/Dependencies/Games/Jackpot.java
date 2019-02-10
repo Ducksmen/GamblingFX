@@ -1,8 +1,12 @@
 package Dependencies.Games;
 
+import Controllers.LoginController;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
+import Dependencies.Systems.User;
+import Dependencies.Systems.UserManager;
 
 /**
  * Jack Hoang and Kent Li
@@ -24,6 +28,10 @@ public class Jackpot extends GamblingGame
     private String win = "";
 
     private int sum = 0;
+
+    private String name;
+
+    private String money;
 
     public Jackpot()
     {
