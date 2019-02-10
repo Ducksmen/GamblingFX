@@ -60,7 +60,7 @@ public class Jackpot extends GamblingGame
         Random rand = new Random();
         for(int i = 0; i < 5; i++)
         {
-            playerPool.add(Integer.toString((rand.nextInt(50) + 20)));
+            playerPool.add(Integer.toString((rand.nextInt(1000))));
         }
         array3.add(playerNames.get(0) + ", " + playerPool.get(0));
         array3.add(playerNames.get(1) + ", " + playerPool.get(1));
