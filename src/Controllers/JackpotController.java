@@ -86,6 +86,18 @@ public class JackpotController implements Initializable
                     {
                         time2 = now - step;
                         timeNum.setText(Long.toString(-time2/1000000000));
+                        if(Long.toString(-time2/1000000000).equals("0"))
+                        {
+                            runGame();
+                            JFXDialog dialog = new JFXDialog();
+                            dialog.setContent(new Label(winner + " won with " + winPercentage + "."));
+                            dialog.show(stackPane);
+                            PauseTransition pause = new PauseTransition(Duration.seconds(4));
+                            pause.setOnFinished(event -> {
+                                dialog.close();
+                            });
+                            pause.play();
+                        }
                     }
                 }
             }.start();
@@ -112,18 +124,6 @@ public class JackpotController implements Initializable
                 winPercent.setText(Integer.toString((Integer.valueOf(currentBet.getText()) / Integer.valueOf(totalBet.getText())) * 100) + "%");
                 submitButton.setVisible(false);
                 field.setEditable(false);
-                if(Long.toString(-time2/1000000000).equals("0"))
-                {
-                    runGame();
-                    JFXDialog dialog = new JFXDialog();
-                    dialog.setContent(new Label(winner + " won with " + winPercentage + "."));
-                    dialog.show(stackPane);
-                    PauseTransition pause = new PauseTransition(Duration.seconds(4));
-                    pause.setOnFinished(event -> {
-                        dialog.close();
-                    });
-                    pause.play();
-                }
             }
             else
             {
