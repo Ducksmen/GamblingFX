@@ -90,6 +90,6 @@
             <Font size="20.0" />
          </font>
       </Label>
-      <StackPane fx:id="stackPane" layoutX="14.0" layoutY="62.0" prefHeight="184.0" prefWidth="254.0" />
+      <StackPane fx:id="stackPane" layoutX="328.0" layoutY="165.0" prefHeight="189.0" prefWidth="307.0" />
    </children>
 </Pane>
