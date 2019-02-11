@@ -92,7 +92,7 @@ public class JackpotController implements Initializable
                         {
                             runGame();
                             JFXDialog dialog = new JFXDialog();
-                            dialog.setContent(new Label(winner + " won."));
+                            dialog.setContent(new Label(winner + " won with" + winPercentage + "%."));
                             dialog.show(stackPane);
                             PauseTransition pause = new PauseTransition(Duration.seconds(4));
                             pause.setOnFinished(event -> {
@@ -157,6 +157,7 @@ public class JackpotController implements Initializable
             a.addPlayerPercent(5);
             a.addToBettingArr(5);
             winner = a.pickWinner();
+            winPercentage = Double.parseDouble(a.returnWinnerPercent());
             gameState = false;
         }
 
