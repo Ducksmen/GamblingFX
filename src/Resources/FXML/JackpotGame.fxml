@@ -50,11 +50,11 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <TableView fx:id="betTable" editable="true" layoutX="251.0" prefHeight="500.0" prefWidth="450.0">
+      <TableView fx:id="tableView" editable="true" layoutX="251.0" prefHeight="500.0" prefWidth="450.0">
         <columns>
-          <TableColumn prefWidth="150.0" text="Player Name" />
-          <TableColumn prefWidth="150.0" text="Bet Amount" />
-            <TableColumn prefWidth="150.0" text="Percentage to Win" />
+          <TableColumn fx:id="nameColumn" prefWidth="150.0" text="Player Name" />
+          <TableColumn fx:id="betColumn" prefWidth="150.0" text="Bet Amount" />
+            <TableColumn fx:id="percentColumn" prefWidth="150.0" text="Percentage to Win" />
         </columns>
       </TableView>
       <Text layoutX="8.0" layoutY="219.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bet:">

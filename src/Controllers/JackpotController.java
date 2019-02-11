@@ -1,28 +1,25 @@
 package Controllers;
 
 import Dependencies.Games.Jackpot;
-import Dependencies.Systems.User;
-import Dependencies.Systems.UserManager;
+import Dependencies.Games.jackpotTable;
 import com.jfoenix.controls.JFXDialog;
 import javafx.animation.*;
-import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableView;
-import  javafx.scene.control.TextField;
+import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 
-import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.CountDownLatch;
 
 public class JackpotController implements Initializable
@@ -38,7 +35,12 @@ public class JackpotController implements Initializable
     @FXML private Label prompt;
     @FXML private Label totalBet;
     @FXML private StackPane stackPane;
-    @FXML private TableView betTable = new TableView();
+    //@FXML private TableView betTable = new TableView();
+    @FXML private TableView<jackpotTable> tableView;
+    @FXML private TableColumn<jackpotTable, String> nameColumn;
+    @FXML private TableColumn<jackpotTable, String> betColumn;
+    @FXML private TableColumn<jackpotTable, String> percentColumn;
+
     private long time2;
     private String winner;
     private double winPercentage;
@@ -90,7 +92,7 @@ public class JackpotController implements Initializable
                         {
                             runGame();
                             JFXDialog dialog = new JFXDialog();
-                            dialog.setContent(new Label(winner + " won with " + winPercentage + "."));
+                            dialog.setContent(new Label(winner + " won."));
                             dialog.show(stackPane);
                             PauseTransition pause = new PauseTransition(Duration.seconds(4));
                             pause.setOnFinished(event -> {
@@ -101,8 +103,6 @@ public class JackpotController implements Initializable
                     }
                 }
             }.start();
-
-            betTable.setEditable(true);
         }
     }
 
@@ -124,6 +124,11 @@ public class JackpotController implements Initializable
                 winPercent.setText(Integer.toString((Integer.valueOf(currentBet.getText()) / Integer.valueOf(totalBet.getText())) * 100) + "%");
                 submitButton.setVisible(false);
                 field.setEditable(false);
+                nameColumn.setCellValueFactory(new PropertyValueFactory<jackpotTable, String>("Name"));
+                betColumn.setCellValueFactory(new PropertyValueFactory<jackpotTable, String>("Bet"));
+                percentColumn.setCellValueFactory(new PropertyValueFactory<jackpotTable, String>("Percent"));
+
+                tableView.setItems(getData());
             }
             else
             {
@@ -132,8 +137,28 @@ public class JackpotController implements Initializable
         }
     }
 
+    public ObservableList<jackpotTable> getData()
+    {
+        ObservableList<jackpotTable> data = FXCollections.observableArrayList();
+        data.add(new jackpotTable(LoginController.currentUser.getFirstName() + " " + LoginController.currentUser.getLastName(),
+                currentBet.getText(),
+                Integer.toString((Integer.valueOf(currentBet.getText()) / Integer.valueOf(totalBet.getText())) * 100) + "%"));
+        return data;
+    }
+
     public void runGame()
     {
+        if (gameState) {
+            Jackpot a = new Jackpot();
+            a.fillPlayerNames();
+            a.fillPlayerPool();
+            a.addPlayerName(5, LoginController.currentUser.getFirstName() + " " + LoginController.currentUser.getLastName());
+            a.addPlayerBet(5, currentBet.getText());
+            a.addPlayerPercent(5);
+            a.addToBettingArr(5);
+            winner = a.pickWinner();
+            gameState = false;
+        }
 
     }
 
