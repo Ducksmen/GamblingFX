@@ -81,22 +81,6 @@ public class Jackpot extends GamblingGame
         return array3;
     }
 
-    /*public ArrayList<String> fillPlayerPercent()
-    {
-        findPlayerPoolSum();
-        double win0 = (Double.valueOf(playerPool.get(0))/sum) * 100;
-        double win1 = (Double.valueOf(playerPool.get(1))/sum) * 100;
-        double win2 = (Double.valueOf(playerPool.get(2))/sum) * 100;
-        double win3 = (Double.valueOf(playerPool.get(3))/sum) * 100;
-        double win4 = (Double.valueOf(playerPool.get(4))/sum) * 100;
-        winPercent.add(array3.get(0) + ", " + win0);
-        winPercent.add(array3.get(1) + ", " + win1);
-        winPercent.add(array3.get(2) + ", " + win2);
-        winPercent.add(array3.get(3) + ", " + win3);
-        winPercent.add(array3.get(4) + ", " + win4);
-        return winPercent;
-    }*/
-
     public int findPlayerPoolSum()
     {
         for(int i = 0; i < playerPool.size(); i++)
@@ -152,32 +136,6 @@ public class Jackpot extends GamblingGame
         System.out.println("Winning Percentage: " + playerPercent.get(winDex) + ".");
         return playerPercent.get(winDex);
     }
-
-    /*public ArrayList<String> bettingArr()
-    {
-        for(int i = 0; i < Integer.parseInt(playerPool.get(0)); i++)
-        {
-            bettingArray.add(playerNames.get(0));
-        }
-        for(int i = 0; i < Integer.parseInt(playerPool.get(1)); i++)
-        {
-            bettingArray.add(playerNames.get(1));
-        }
-        for(int i = 0; i < Integer.parseInt(playerPool.get(2)); i++)
-        {
-            bettingArray.add(playerNames.get(2));
-        }
-        for(int i = 0; i < Integer.parseInt(playerPool.get(3)); i++)
-        {
-            bettingArray.add(playerNames.get(3));
-        }
-        for(int i = 0; i < Integer.parseInt(playerPool.get(4)); i++)
-        {
-            bettingArray.add(playerNames.get(4));
-        }
-        //Collections.shuffle(bettingArray);
-        return bettingArray;
-    }*/
 
     public ArrayList<String> addToBettingArr(int j)
     {
