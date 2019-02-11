@@ -35,7 +35,6 @@ public class JackpotController implements Initializable
     @FXML private Label prompt;
     @FXML private Label totalBet;
     @FXML private StackPane stackPane;
-    //@FXML private TableView betTable = new TableView();
     @FXML private TableView<jackpotTable> tableView;
     @FXML private TableColumn<jackpotTable, String> nameColumn;
     @FXML private TableColumn<jackpotTable, String> betColumn;
@@ -44,36 +43,14 @@ public class JackpotController implements Initializable
     private long time2;
     private String winner;
     private double winPercentage;
-    private static final Integer STARTTIME = 15;
-    private Timeline timeline;
-    private IntegerProperty timeSeconds = new SimpleIntegerProperty(STARTTIME);
-    private CountDownLatch latch = new CountDownLatch(1);
     private boolean gameState = false;
     private Jackpot jp;
-    private int timer;
-
 
     public void start()
     {
         if (!gameState)
         {
             gameState = true;
-
-            /*
-            //TIMER 2.0
-
-            timeNum.textProperty().bind(timeSeconds.asString());
-            if(timeline != null){
-                timeline.stop();
-
-            }
-            timeSeconds.set(STARTTIME);
-            timeline = new Timeline();
-            timeline.getKeyFrames().add(
-                    new KeyFrame(Duration.seconds(STARTTIME+1),
-                            new KeyValue(timeSeconds, 0)));
-            timeline.playFromStart(); */
-
 
             long step = System.nanoTime() + 15000000000L;
             new AnimationTimer()
@@ -92,7 +69,7 @@ public class JackpotController implements Initializable
                         {
                             runGame();
                             JFXDialog dialog = new JFXDialog();
-                            dialog.setContent(new Label(winner + " won with" + winPercentage + "%."));
+                            dialog.setContent(new Label(winner + " won with " + winPercentage + "%."));
                             dialog.show(stackPane);
                             PauseTransition pause = new PauseTransition(Duration.seconds(4));
                             pause.setOnFinished(event -> {
@@ -149,18 +126,23 @@ public class JackpotController implements Initializable
     public void runGame()
     {
         if (gameState) {
-            Jackpot a = new Jackpot();
-            a.fillPlayerNames();
-            a.fillPlayerPool();
-            a.addPlayerName(5, LoginController.currentUser.getFirstName() + " " + LoginController.currentUser.getLastName());
-            a.addPlayerBet(5, currentBet.getText());
-            a.addPlayerPercent(5);
-            a.addToBettingArr(5);
-            winner = a.pickWinner();
-            winPercentage = Double.parseDouble(a.returnWinnerPercent());
+            jp.fillPlayerNames();
+            jp.fillPlayerPool();
+            jp.addPlayerName(5, LoginController.currentUser.getFirstName() + " " + LoginController.currentUser.getLastName());
+            jp.addPlayerBet(5, currentBet.getText());
+            jp.addPlayerPercent(5);
+            jp.addToBettingArr(5);
+            winner = jp.pickWinner();
+            winPercentage = Double.parseDouble(jp.returnWinnerPercent());
             gameState = false;
         }
-
+        //Our main problem is that jack actually ran all of this at once which is why the table isn't updating.
+        //If you want to fix this problem, I was thinking of actually
+        //Filling the table and name first with the bots
+        //Then on the handle(button click), it will use the addPlayerName etc to add the player info ONTO the table
+        //Then finally when the time counts down to 0 it will run jp.pickWinner instead of runGame all at once
+        //I hope this comment helps just contact me on discord for more info about our project.
+        //I'm really sorry for the shitty coding cuz this pseudo hardcoding was the easiest way for me to do it.
     }
 
     @Override
