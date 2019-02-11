@@ -55,6 +55,7 @@ public class Jackpot extends GamblingGame
         this.wini = wini;
     }
 
+    //Fills the names, bets and percentages of the bots
     public ArrayList<String> fillPlayerNames()
     {
         playerNames.add(0,"Bot1");
@@ -81,22 +82,6 @@ public class Jackpot extends GamblingGame
         return array3;
     }
 
-    /*public ArrayList<String> fillPlayerPercent()
-    {
-        findPlayerPoolSum();
-        double win0 = (Double.valueOf(playerPool.get(0))/sum) * 100;
-        double win1 = (Double.valueOf(playerPool.get(1))/sum) * 100;
-        double win2 = (Double.valueOf(playerPool.get(2))/sum) * 100;
-        double win3 = (Double.valueOf(playerPool.get(3))/sum) * 100;
-        double win4 = (Double.valueOf(playerPool.get(4))/sum) * 100;
-        winPercent.add(array3.get(0) + ", " + win0);
-        winPercent.add(array3.get(1) + ", " + win1);
-        winPercent.add(array3.get(2) + ", " + win2);
-        winPercent.add(array3.get(3) + ", " + win3);
-        winPercent.add(array3.get(4) + ", " + win4);
-        return winPercent;
-    }*/
-
     public int findPlayerPoolSum()
     {
         for(int i = 0; i < playerPool.size(); i++)
@@ -106,6 +91,7 @@ public class Jackpot extends GamblingGame
         return sum;
     }
 
+    //The add functions make it so that you can do jp.addPlayerName(the current user in the final game)
     public ArrayList<String> addPlayerName(int i, String name)
     {
         playerNames.add(i,name);
@@ -119,6 +105,7 @@ public class Jackpot extends GamblingGame
         return array3;
     }
 
+    //Calculates win percents for everyone
     public ArrayList<String> addPlayerPercent(int i)
     {
         findPlayerPoolSum();
@@ -153,32 +140,7 @@ public class Jackpot extends GamblingGame
         return playerPercent.get(winDex);
     }
 
-    /*public ArrayList<String> bettingArr()
-    {
-        for(int i = 0; i < Integer.parseInt(playerPool.get(0)); i++)
-        {
-            bettingArray.add(playerNames.get(0));
-        }
-        for(int i = 0; i < Integer.parseInt(playerPool.get(1)); i++)
-        {
-            bettingArray.add(playerNames.get(1));
-        }
-        for(int i = 0; i < Integer.parseInt(playerPool.get(2)); i++)
-        {
-            bettingArray.add(playerNames.get(2));
-        }
-        for(int i = 0; i < Integer.parseInt(playerPool.get(3)); i++)
-        {
-            bettingArray.add(playerNames.get(3));
-        }
-        for(int i = 0; i < Integer.parseInt(playerPool.get(4)); i++)
-        {
-            bettingArray.add(playerNames.get(4));
-        }
-        //Collections.shuffle(bettingArray);
-        return bettingArray;
-    }*/
-
+    //Making a separate arraylist for the actual betting, more bet = more chance to win
     public ArrayList<String> addToBettingArr(int j)
     {
         for(int i = 0; i < Integer.parseInt(playerPool.get(0)); i++)
@@ -209,6 +171,7 @@ public class Jackpot extends GamblingGame
         return bettingArray;
     }
 
+    //The actual picking of the winner by picking a random index in the betting array
     public String pickWinner()
     {
         Random k = new Random();
@@ -223,5 +186,22 @@ public class Jackpot extends GamblingGame
             }
         }
         return win;
+    }
+
+    //These 3 funcs below return a specific name, bet, and percent depending on the index.
+
+    public String returnNames(int i)
+    {
+        return playerNames.get(i);
+    }
+
+    public String returnBets(int i)
+    {
+        return playerPool.get(i);
+    }
+
+    public String returnPercent(int i)
+    {
+        return playerPercent.get(i);
     }
 }
