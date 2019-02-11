@@ -25,23 +25,34 @@ public class Jackpot extends GamblingGame
 
     private ArrayList<String> winPercent = new ArrayList<>();
 
+    private ArrayList<String> playerPercent = new ArrayList<>();
+
     private String win = "";
 
     private int sum = 0;
 
-    private String name;
+    private double win0;
 
-    private String money;
+    private double win1;
+
+    private double win2;
+
+    private double win3;
+
+    private double win4;
+
+    private double wini;
+
+    private int winDex;
 
     public Jackpot()
     {
-        this.betTotal = betTotal;
-        this.playerPool = playerPool;
-        this.playerNames = playerNames;
-        this.array3 = array3;
-        this.winPercent = winPercent;
-        this.sum = sum;
-        this.win = win;
+        this.win0 = win0;
+        this.win1 = win1;
+        this.win2 = win2;
+        this.win3 = win3;
+        this.win4 = win4;
+        this.wini = wini;
     }
 
     public ArrayList<String> fillPlayerNames()
@@ -111,12 +122,12 @@ public class Jackpot extends GamblingGame
     public ArrayList<String> addPlayerPercent(int i)
     {
         findPlayerPoolSum();
-        double win0 = (Double.valueOf(playerPool.get(0))/sum) * 100;
-        double win1 = (Double.valueOf(playerPool.get(1))/sum) * 100;
-        double win2 = (Double.valueOf(playerPool.get(2))/sum) * 100;
-        double win3 = (Double.valueOf(playerPool.get(3))/sum) * 100;
-        double win4 = (Double.valueOf(playerPool.get(4))/sum) * 100;
-        double wini = (Double.valueOf(playerPool.get(i))/sum) * 100;
+        win0 = (Double.valueOf(playerPool.get(0))/sum) * 100;
+        win1 = (Double.valueOf(playerPool.get(1))/sum) * 100;
+        win2 = (Double.valueOf(playerPool.get(2))/sum) * 100;
+        win3 = (Double.valueOf(playerPool.get(3))/sum) * 100;
+        win4 = (Double.valueOf(playerPool.get(4))/sum) * 100;
+        wini = (Double.valueOf(playerPool.get(i))/sum) * 100;
         winPercent.add(array3.get(0) + ", " + win0);
         winPercent.add(array3.get(1) + ", " + win1);
         winPercent.add(array3.get(2) + ", " + win2);
@@ -128,6 +139,18 @@ public class Jackpot extends GamblingGame
             System.out.println(s);
         }
         return winPercent;
+    }
+
+    public String returnWinnerPercent()
+    {
+        playerPercent.add(Double.toString(win0));
+        playerPercent.add(Double.toString(win1));
+        playerPercent.add(Double.toString(win2));
+        playerPercent.add(Double.toString(win3));
+        playerPercent.add(Double.toString(win4));
+        playerPercent.add(Double.toString(wini));
+        System.out.println("Winning Percentage: " + playerPercent.get(winDex) + ".");
+        return playerPercent.get(winDex);
     }
 
     /*public ArrayList<String> bettingArr()
@@ -192,6 +215,13 @@ public class Jackpot extends GamblingGame
         int winningIndex = k.nextInt(bettingArray.size());
         win = bettingArray.get(winningIndex);
         System.out.println("The Winner Is: " + win + ".");
+        for(int i = 0; i < playerNames.size(); i++)
+        {
+            if(win.equals(playerNames.get(i)))
+            {
+                winDex = i;
+            }
+        }
         return win;
     }
 }

@@ -14,5 +14,6 @@ public class JackpotTestRunner {
         a.addPlayerPercent(5);
         a.addToBettingArr(5);
         a.pickWinner();
+        a.returnWinnerPercent();
     }
 }
