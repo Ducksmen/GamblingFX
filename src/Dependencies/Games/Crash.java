@@ -142,7 +142,6 @@ public class Crash extends GamblingGame {
     public void setLosingPlayers() {
         for (User user : userManager.getStatusOfUsers().keySet()) {
             if (userManager.getStatusOfUser(user).equals("Playing") && !gameRunning) {
-                System.out.println("hit");
                 userManager.setStatusOfUser(user, "Lost");
             }
         }

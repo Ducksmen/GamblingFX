@@ -27,7 +27,6 @@ public class JackpotController implements Initializable
     @FXML private Label yourName;
     @FXML private Label balanceNum;
     @FXML private Label currentBet;
-    @FXML private Button startButton;
     @FXML private Label timeNum;
     @FXML private Label winPercent;
     @FXML private Button submitButton;
@@ -46,8 +45,12 @@ public class JackpotController implements Initializable
     private boolean gameState = false;
     private Jackpot jp;
 
+    private ObservableList<jackpotTable> data = FXCollections.observableArrayList();
+
     public void start()
     {
+        jp.fillPlayerNames();
+        jp.fillPlayerPool();
         if (!gameState)
         {
             gameState = true;
@@ -67,15 +70,17 @@ public class JackpotController implements Initializable
                         timeNum.setText(Long.toString(-time2/1000000000));
                         if(Long.toString(-time2/1000000000).equals("0"))
                         {
-                            runGame();
+                            winner = jp.pickWinner();
+                            winPercentage = Double.parseDouble(jp.returnWinnerPercent());
                             JFXDialog dialog = new JFXDialog();
-                            dialog.setContent(new Label(winner + " won with " + winPercentage + "%."));
+                            dialog.setContent(new Label(winner + " won with " + roundDown(winPercentage) + "% chance."));
                             dialog.show(stackPane);
                             PauseTransition pause = new PauseTransition(Duration.seconds(4));
                             pause.setOnFinished(event -> {
                                 dialog.close();
                             });
                             pause.play();
+                            this.stop();
                         }
                     }
                 }
@@ -88,6 +93,11 @@ public class JackpotController implements Initializable
         return (field.getText().matches("^[0-9]*$") || field.getText().length() > 10 || field.getText().length() == 0);
     }
 
+    private double roundDown(double double1)
+    {
+        return (double)Math.round((double1 * 100))/100;
+    }
+
     public void handler(javafx.event.ActionEvent e)
     {
         if (gameState)
@@ -96,6 +106,7 @@ public class JackpotController implements Initializable
             {
                 prompt.setText("Bet Received.");
                 currentBet.setText(field.getText());
+                int sum = 0;
                 totalBet.setText(currentBet.getText());
                 balanceNum.setText(Integer.toString(Integer.parseInt(balanceNum.getText()) - Integer.parseInt(currentBet.getText())));
                 winPercent.setText(Integer.toString((Integer.valueOf(currentBet.getText()) / Integer.valueOf(totalBet.getText())) * 100) + "%");
@@ -104,7 +115,13 @@ public class JackpotController implements Initializable
                 nameColumn.setCellValueFactory(new PropertyValueFactory<jackpotTable, String>("Name"));
                 betColumn.setCellValueFactory(new PropertyValueFactory<jackpotTable, String>("Bet"));
                 percentColumn.setCellValueFactory(new PropertyValueFactory<jackpotTable, String>("Percent"));
-
+                runGame();
+                for(int i = 0; i < 6; i++)
+                {
+                sum+=Integer.parseInt(jp.returnBets(i));
+                }
+                totalBet.setText(Integer.toString(sum));
+                winPercent.setText(Double.toString(roundDown(Double.parseDouble(jp.returnPercent(5)))));
                 tableView.setItems(getData());
             }
             else
@@ -116,24 +133,23 @@ public class JackpotController implements Initializable
 
     public ObservableList<jackpotTable> getData()
     {
-        ObservableList<jackpotTable> data = FXCollections.observableArrayList();
+        for(int i = 0; i < 5; i++) {
+            data.add(new jackpotTable(jp.returnNames(i), jp.returnBets(i), Double.toString(roundDown(Double.parseDouble(jp.returnPercent(i))))));
+        }
         data.add(new jackpotTable(LoginController.currentUser.getFirstName() + " " + LoginController.currentUser.getLastName(),
                 currentBet.getText(),
-                Integer.toString((Integer.valueOf(currentBet.getText()) / Integer.valueOf(totalBet.getText())) * 100) + "%"));
+                Double.toString(roundDown((Double.parseDouble(currentBet.getText()) / Integer.parseInt(totalBet.getText())) * 100))));
         return data;
     }
 
     public void runGame()
     {
         if (gameState) {
-            jp.fillPlayerNames();
-            jp.fillPlayerPool();
             jp.addPlayerName(5, LoginController.currentUser.getFirstName() + " " + LoginController.currentUser.getLastName());
             jp.addPlayerBet(5, currentBet.getText());
             jp.addPlayerPercent(5);
             jp.addToBettingArr(5);
-            winner = jp.pickWinner();
-            winPercentage = Double.parseDouble(jp.returnWinnerPercent());
+            jp.returnWinnerPercent();
             gameState = false;
         }
         //Our main problem is that jack actually ran all of this at once which is why the table isn't updating.

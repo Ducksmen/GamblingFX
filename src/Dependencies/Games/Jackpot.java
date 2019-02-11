@@ -121,10 +121,6 @@ public class Jackpot extends GamblingGame
         winPercent.add(array3.get(3) + ", " + win3);
         winPercent.add(array3.get(4) + ", " + win4);
         winPercent.add(array3.get(i) + ", " + wini);
-        for(String s: winPercent)
-        {
-            System.out.println(s);
-        }
         return winPercent;
     }
 
@@ -136,7 +132,6 @@ public class Jackpot extends GamblingGame
         playerPercent.add(Double.toString(win3));
         playerPercent.add(Double.toString(win4));
         playerPercent.add(Double.toString(wini));
-        System.out.println("Winning Percentage: " + playerPercent.get(winDex) + ".");
         return playerPercent.get(winDex);
     }
 
@@ -177,7 +172,6 @@ public class Jackpot extends GamblingGame
         Random k = new Random();
         int winningIndex = k.nextInt(bettingArray.size());
         win = bettingArray.get(winningIndex);
-        System.out.println("The Winner Is: " + win + ".");
         for(int i = 0; i < playerNames.size(); i++)
         {
             if(win.equals(playerNames.get(i)))
